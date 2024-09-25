@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Film Posters</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #search {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      font-size: 18px;
+    }
+    #filmGrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-gap: 20px;
+    }
+    .filmItem {
+      text-align: center;
+    }
+    .filmPoster {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <input type="text" id="search" placeholder="Search films..." oninput="filterFilms()">
+
+  <div id="filmGrid"></div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
+

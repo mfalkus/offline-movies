@@ -3,38 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Film Posters</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    #search {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
-    #filmGrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      grid-gap: 20px;
-    }
-    .filmItem {
-      text-align: center;
-    }
-    .filmPoster {
-      width: 100%;
-      height: auto;
-    }
-  </style>
+  <title>Movie Posters</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <input type="text" id="search" placeholder="Search films..." oninput="filterFilms()">
-
+  <input type="text" id="search" placeholder="Search films...">
   <div id="filmGrid"></div>
+
+  <!-- Modal for displaying movie details -->
+  <div id="filmModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <img id="modalPoster" class="modalPoster" src="" alt="Poster">
+      <h2 id="modalTitle"></h2>
+      <p id="modalPlot"></p>
+      <p><strong>Year:</strong> <span id="modalYear"></span></p>
+      <p><strong>Genre:</strong> <span id="modalGenre"></span></p>
+      <p><strong>Rated:</strong> <span id="modalRated"></span></p>
+      <p><strong>Runtime:</strong> <span id="modalRuntime"></span></p>
+      <p><strong>Tags:</strong> <span id="modalTags"></span></p>
+    </div>
+  </div>
 
   <script type="module" src="app.js"></script>
 </body>
 </html>
-

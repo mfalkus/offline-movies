@@ -74,7 +74,7 @@ async function fetchMovieInfo(filmName, filmYear) {
     yearStr = `&y=${encodeURIComponent(filmYear)}`;
   }
 
-  const response = await fetch(`http://www.omdbapi.com/?t=${encodeURIComponent(filmName)}${yearStr}&apikey=${config.omdbApiKey}`);
+  const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(filmName)}${yearStr}&apikey=${config.omdbApiKey}`);
   const data = await response.json();
 
   if (data.Response === 'True') {

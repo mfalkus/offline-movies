@@ -7,7 +7,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <input type="text" id="search" placeholder="Search films...">
+  <div class="header-push">&nbsp;</div>
+  <div class="flex header">
+      <h2>Offline Movies <span class="film-count" id="count">0</span></h2>
+      <input type="text" id="search" placeholder="Search films...">
+      <button id="reset">Reset</button>
+  </div>
+
+  <div id="error"></div>
   <div id="filmGrid"></div>
 
   <!-- Modal for displaying movie details -->
@@ -15,13 +22,22 @@
     <div class="modal-content">
       <span class="close">&times;</span>
       <img id="modalPoster" class="modalPoster" src="" alt="Poster">
-      <h2 id="modalTitle"></h2>
+      <div class="flex">
+          <h2 id="modalTitle"> </h2>
+          <small><a href="" target="_blank" id="modalTrailer">Trailer</a></small>
+      </div>
       <p id="modalPlot"></p>
+
       <p><strong>Year:</strong> <span id="modalYear"></span></p>
       <p><strong>Genre:</strong> <span id="modalGenre"></span></p>
       <p><strong>Rated:</strong> <span id="modalRated"></span></p>
       <p><strong>Runtime:</strong> <span id="modalRuntime"></span></p>
+      <p><strong>Rotten Tomatoes:</strong> <span id="modalRTRating"></span></p>
+
+      <hr />
       <p><strong>Tags:</strong> <span id="modalTags"></span></p>
+      <p><strong>Media:</strong> <span id="modalMedia"></span></p>
+      <p><strong>Notes:</strong> <span id="modalNotes"></span></p>
     </div>
   </div>
 

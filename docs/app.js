@@ -22,10 +22,25 @@ function getRottenTomatoesRating(data) {
 const { googleSheetId, omdbApiKey } = getParamsFromHash();
 
 if (!googleSheetId) {
-    document.getElementById('error').innerHTML = 'No google sheet ID given in URL, expected form: https://example.com/#sheetId=GOOGLE_SHEET_ID&apikey=OMDB_API_KEY';
+    document.getElementById('error').innerHTML = `
+        <p>
+        No google sheet ID given in URL, expected form: <code>${window.location.href}#sheetId=GOOGLE_SHEET_ID&apikey=OMDB_API_KEY</code>
+        </p>
+        <p>
+        See https://github.com/mfalkus/offline-movies for further details.
+        </p>
+    `;
 }
 if (!omdbApiKey) {
-    document.getElementById('error').innerHTML = 'No OMDB API Key given in URL, expected form: https://example.com/#sheetId=GOOGLE_SHEET_ID&apikey=OMDB_API_KEY';
+    document.getElementById('error').innerHTML = `
+        <p>
+        No OMDB API key given in URL, expected form: <code>${window.location.href}#sheetId=GOOGLE_SHEET_ID&apikey=OMDB_API_KEY</code>
+        </p>
+        <p>
+        Head to https://www.omdbapi.com/ to register a key if you don't have one.
+        See https://github.com/mfalkus/offline-movies for further details.
+        </p>
+    `;
 }
 
 // Build our config from the URL
@@ -119,6 +134,10 @@ async function displayFilms(films) {
   const filmGrid = document.getElementById('filmGrid');
   filmGrid.innerHTML = '';
 
+  // Let the user know we are loading data
+  // which can take a while on first page view.
+  document.getElementById('status').innerHTML = 'Loading...';
+
   let sortedFilms = sortMoviesByTag(films);
   document.getElementById('count').textContent = sortedFilms.length;
 
@@ -150,6 +169,9 @@ async function displayFilms(films) {
       showFilmModal(this.getAttribute('data-filmname'), this.getAttribute('data-filmyear'));
     });
   });
+
+  // Clear the loading message...
+  document.getElementById('status').innerHTML = '';
 }
 
 // Show modal with movie info

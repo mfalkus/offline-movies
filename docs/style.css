@@ -1,5 +1,7 @@
 body {
+  background: black;
   font-family: Arial, sans-serif;
+  color: white;
 }
 
 #filmGrid {
@@ -19,7 +21,7 @@ body {
   right: 0;
 }
 .filmItem:hover {
-    opacity: 90%;
+  opacity: 90%;
 }
 
 .filmPoster {
@@ -95,39 +97,39 @@ body {
 }
 
 div:has(> img.tag--unwatched) {
-    border: 2px red solid;
+  border: 2px dashed white;
 }
 
 .flex {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 .flex h2 {
-    flex-grow: 1;
-}
-
-body {
-    background: black;
+  flex-grow: 1;
 }
 
 .header {
-    position: fixed;
-    z-index: 100;
-    height: 50px;
-    background: black;
-    top: 0;
-    left: 0;
-    right: 0;
-    color: white;
-    padding: 0 10px;
+  position: fixed;
+  z-index: 100;
+  height: 50px;
+  background: black;
+  top: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  padding: 0 10px;
 }
 .header-push {
-    height: 50px;
-    width: 100%;
+  height: 50px;
+  width: 100%;
 }
 
 .film-count {
-    font-size: 70%;
-    font-style: italic;
-    margin-left: 20px;
+  font-size: 70%;
+  font-style: italic;
+  margin-left: 20px;
+}
+
+.status-text {
+    padding: 0 5px;
 }

@@ -56,7 +56,14 @@ async function fetchFilms() {
     const tags = columns[3] ? columns[3].split('; ') : []; // Assuming tags are separated by semicolons
 
     const notes = columns[4];
-    return { name: filmName, year: filmYear, media: filmMedia, notes: notes, tags };
+    return {
+        name: filmName,
+        year: filmYear,
+        media: filmMedia,
+        notes: notes,
+        genres: [], // Filled in later from OMDB API
+        tags: tags
+    };
   });
 
   return films;
@@ -83,7 +90,13 @@ async function fetchMovieInfo(filmName, filmYear) {
     return data;
   }
 
-  return { Title: filmName, Poster: 'https://via.placeholder.com/200x300?text=No+Poster+Available', Plot: 'No information available', Year: 'Unknown' };
+  return {
+      Title: filmName,
+      Poster: 'https://via.placeholder.com/200x300?text=No+Poster+Available',
+      Plot: 'No information available',
+      Year: 'Unknown',
+      ShowTitleInListing: true,
+  };
 }
 
 // Function to sort movies, moving 'unwatched' to the front
@@ -111,12 +124,20 @@ async function displayFilms(films) {
 
   for (const film of sortedFilms) {
     const movie = await fetchMovieInfo(film.name, film.year);
+    film.genres = movie.Genre ? movie.Genre.split(', ') : [];
+
+    let movieHeading = '';
+    if (movie?.ShowTitleInListing) {
+      movieHeading = '<h4>' + movie.Title + '</h4>';
+    }
     const filmItem = document.createElement('div');
     const tagClasses = film.tags.map(tag => `tag--${tag.toLowerCase()}`);
     filmItem.className = 'filmItem';
     filmItem.innerHTML = `
       <img class="filmPoster ${tagClasses.join(' ')}" src="${movie.Poster}" alt="${movie.Title}" data-filmname="${film.name}" data-filmyear="${film.year}">
+      ${movieHeading}
       <div class="tags">
+        ${film.genres.map(genre => `<span onClick="window.setFilter('${genre}')" class="tag span-tag" data-tag="${genre}" style="background-color: ${getTagColor(genre)}">${genre}</span>`).join('')}
         ${film.tags.map(tag => `<span onClick="window.setFilter('${tag}')" class="tag span-tag" data-tag="${tag}" style="background-color: ${getTagColor(tag)}">${tag}</span>`).join('')}
        </div>
     `;
@@ -204,6 +225,7 @@ function filterFilms(val) {
   const filteredFilms = films.filter(
       film => film.name.toLowerCase().includes(searchValue.toLowerCase())
             || film.tags.includes(searchValue)
+            || film.genres.includes(searchValue)
   );
 
   displayFilms(filteredFilms);

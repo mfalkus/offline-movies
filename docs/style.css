@@ -12,6 +12,15 @@ body {
   position: relative;
   text-align: center;
 }
+.filmItem h4 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.filmItem:hover {
+    opacity: 90%;
+}
 
 .filmPoster {
   width: 100%;
@@ -79,9 +88,10 @@ body {
 .span-tag {
   cursor:pointer;
   color: black;
+  opacity: 60%;
 }
 .span-tag:hover {
-    opacity: 70%;
+  opacity: 100%;
 }
 
 div:has(> img.tag--unwatched) {

@@ -10,6 +10,18 @@ body {
   gap: 10px;
 }
 
+@media screen and (max-width: 900px) {
+    #filmGrid {
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    }
+}
+
+@media screen and (max-width: 600px) {
+    #filmGrid {
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    }
+}
+
 .filmItem {
   position: relative;
   text-align: center;

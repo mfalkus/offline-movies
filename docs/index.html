@@ -7,13 +7,14 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="header-push">&nbsp;</div>
   <div class="flex header">
       <h2>Offline Movies <span class="film-count" id="count">0</span></h2>
 
       <span class='status-text' id="status"></span>
-      <input type="text" id="search" placeholder="Search films...">
-      <button id="reset">Reset</button>
+      <div class="flex width-control">
+        <input class="full-width" type="text" id="search" placeholder="Search films...">
+        <button id="reset">Clear</button>
+      </div>
   </div>
 
   <div id="error"></div>

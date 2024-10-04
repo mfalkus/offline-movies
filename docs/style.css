@@ -2,6 +2,7 @@ body {
   background: black;
   font-family: Arial, sans-serif;
   color: white;
+  margin: 20px;
 }
 
 #filmGrid {
@@ -10,16 +11,28 @@ body {
   gap: 10px;
 }
 
+.width-control {
+  width: 400px;
+}
+
 @media screen and (max-width: 900px) {
-    #filmGrid {
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    }
+  #filmGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
 }
 
 @media screen and (max-width: 600px) {
-    #filmGrid {
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-    }
+  #filmGrid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .header {
+    flex-direction: column;
+  }
+
+  .width-control {
+    width: 100%
+  }
 }
 
 .filmItem {
@@ -122,25 +135,13 @@ div:has(> img.tag--unwatched) {
 .flex {
   display: flex;
   align-items: center;
-}
-.flex h2 {
-  flex-grow: 1;
+  gap: 10px;
+  justify-content: space-between;
 }
 
 .header {
-  position: fixed;
-  z-index: 100;
-  height: 50px;
-  background: black;
-  top: 0;
-  left: 0;
-  right: 0;
   color: white;
-  padding: 0 10px;
-}
-.header-push {
-  height: 50px;
-  width: 100%;
+  margin: 20px 0 20px 0;
 }
 
 .film-count {
@@ -150,5 +151,13 @@ div:has(> img.tag--unwatched) {
 }
 
 .status-text {
-    padding: 0 5px;
+  padding: 0 5px;
+}
+
+.full-width {
+  width: 100%
+}
+
+h2 {
+  margin: 0px;
 }

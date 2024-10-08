@@ -96,9 +96,17 @@ async function fetchMovieInfo(filmName, filmYear) {
     yearStr = `&y=${encodeURIComponent(filmYear)}`;
   }
 
-  const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(filmName)}${yearStr}&apikey=${config.omdbApiKey}`);
-  const data = await response.json();
+  let data = {
+    Response: 'False'
+  }
 
+  try {
+    const response = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(filmName)}${yearStr}&apikey=${config.omdbApiKey}`);
+    data = await response.json();
+  } catch (err) {
+    console.error("Could not get film info.", err)
+  }
+  
   if (data.Response === 'True') {
     movieCache[filmName] = data;
     localStorage.setItem('movieCache', JSON.stringify(movieCache));
@@ -141,26 +149,28 @@ async function displayFilms(films) {
   let sortedFilms = sortMoviesByTag(films);
   document.getElementById('count').textContent = sortedFilms.length;
 
-  for (const film of sortedFilms) {
-    const movie = await fetchMovieInfo(film.name, film.year);
-    film.genres = movie.Genre ? movie.Genre.split(', ') : [];
+  while (sortedFilms.length) {
+    await Promise.all(sortedFilms.splice(0, 10).map(async film => {
+      const movie = await fetchMovieInfo(film.name, film.year);
+      film.genres = movie.Genre ? movie.Genre.split(', ') : [];
 
-    let movieHeading = '';
-    if (movie?.ShowTitleInListing) {
-      movieHeading = '<h4>' + movie.Title + '</h4>';
-    }
-    const filmItem = document.createElement('div');
-    const tagClasses = film.tags.map(tag => `tag--${tag.toLowerCase()}`);
-    filmItem.className = 'filmItem';
-    filmItem.innerHTML = `
-      <img class="filmPoster ${tagClasses.join(' ')}" src="${movie.Poster}" alt="${movie.Title}" data-filmname="${film.name}" data-filmyear="${film.year}">
-      ${movieHeading}
-      <div class="tags">
-        ${film.genres.map(genre => `<span onClick="window.setFilter('${genre}')" class="tag span-tag" data-tag="${genre}" style="background-color: ${getTagColor(genre)}">${genre}</span>`).join('')}
-        ${film.tags.map(tag => `<span onClick="window.setFilter('${tag}')" class="tag span-tag" data-tag="${tag}" style="background-color: ${getTagColor(tag)}">${tag}</span>`).join('')}
-       </div>
-    `;
-    filmGrid.appendChild(filmItem);
+      let movieHeading = '';
+      if (movie?.ShowTitleInListing) {
+        movieHeading = '<h4>' + movie.Title + '</h4>';
+      }
+      const filmItem = document.createElement('div');
+      const tagClasses = film.tags.map(tag => `tag--${tag.toLowerCase()}`);
+      filmItem.className = 'filmItem';
+      filmItem.innerHTML = `
+        <img class="filmPoster ${tagClasses.join(' ')}" src="${movie.Poster}" loading="lazy" alt="${movie.Title}" data-filmname="${film.name}" data-filmyear="${film.year}">
+        ${movieHeading}
+        <div class="tags">
+          ${film.genres.map(genre => `<span onClick="window.setFilter('${genre}')" class="tag span-tag" data-tag="${genre}" style="background-color: ${getTagColor(genre)}">${genre}</span>`).join('')}
+          ${film.tags.map(tag => `<span onClick="window.setFilter('${tag}')" class="tag span-tag" data-tag="${tag}" style="background-color: ${getTagColor(tag)}">${tag}</span>`).join('')}
+        </div>
+      `;
+      filmGrid.appendChild(filmItem);
+    }));
   }
 
   // Add click event to each film poster to open the modal

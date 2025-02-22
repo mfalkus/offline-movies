@@ -86,10 +86,12 @@ async function fetchFilms() {
 
 // Fetch full movie info using OMDb API, check cache first
 async function fetchMovieInfo(filmName, filmYear) {
-  let cacheName = filmName + (filmYear ? filmYear : '');
+  let cacheName = `${filmName}${filmYear ? filmYear : ''}`;
   if (movieCache[cacheName]) {
     return movieCache[cacheName];
   }
+
+  console.log(`Cache Miss Fetching movie info for ${filmName} (${filmYear})`);
 
   let yearStr = '';
   if (filmYear) {
@@ -108,8 +110,11 @@ async function fetchMovieInfo(filmName, filmYear) {
   }
   
   if (data.Response === 'True') {
-    movieCache[filmName] = data;
+    movieCache[cacheName] = data;
     localStorage.setItem('movieCache', JSON.stringify(movieCache));
+    if (data.Poster === 'N/A') {
+      data.Poster = '';
+    }
     return data;
   }
 

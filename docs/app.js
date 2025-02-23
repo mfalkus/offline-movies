@@ -49,9 +49,8 @@ const config = {
     omdbApiKey: omdbApiKey,
 }
 
-
 let movieCache = JSON.parse(localStorage.getItem('movieCache')) || {};
-let films = [];
+let movieList = [];
 let uniqueTags = {};
 
 // Fetch film data from Google Sheet and extract only the first column for film name and fourth for tags
@@ -151,7 +150,7 @@ async function displayFilms(films) {
   // which can take a while on first page view.
   document.getElementById('status').innerHTML = 'Loading...';
 
-  let sortedFilms = sortMoviesByTag(films);
+  let sortedFilms = [...sortMoviesByTag(films)];
   document.getElementById('count').textContent = sortedFilms.length;
 
   while (sortedFilms.length) {
@@ -205,8 +204,7 @@ async function showFilmModal(filmName, filmYear) {
 
   const rtRating = getRottenTomatoesRating(movie);
   document.getElementById('modalRTRating').textContent = rtRating ? rtRating : 'Unavailable';
-
-  let localFilm = films.find(film => film.name === filmName && film.year === filmYear);
+  let localFilm = movieList.find(film => film.name === filmName && film.year === filmYear);
   if (localFilm) {
       document.getElementById('modalTags').textContent = localFilm.tags.join(', ');
       document.getElementById('modalMedia').textContent = localFilm.media;
@@ -259,7 +257,7 @@ window.setFilter = function(val) {
 // Filter films based on search input
 function filterFilms(val) {
   const searchValue = document.getElementById('search').value;
-  const filteredFilms = films.filter(
+  const filteredFilms = movieList.filter(
       film => film.name.toLowerCase().includes(searchValue.toLowerCase())
             || film.tags.includes(searchValue)
             || film.genres.includes(searchValue)
@@ -276,8 +274,8 @@ document.getElementById('reset').onclick = function() {
 
 // Fetch and display films on page load
 async function init() {
-  films = await fetchFilms();
-  displayFilms(films);
+  movieList = await fetchFilms();
+  displayFilms(movieList);
 }
 
-init();
+await init();
